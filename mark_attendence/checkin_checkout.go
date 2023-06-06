@@ -6,7 +6,6 @@ import (
 	"log"
 	"net/http"
 	"time"
-
 	"github.com/gin-gonic/gin"
 	"github.com/go-sql-driver/mysql"
 )
@@ -131,10 +130,40 @@ func markAttendence(c *gin.Context) {
 	}
 }
 
+
+func deleteAttendance(c *gin.Context) {
+	var json struct {
+		EmpCode string `json:"emp_code"`
+	}
+	err := c.ShouldBindJSON(&json)
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Employee code is missing"})
+		return
+	}
+
+	adb := attendenceDBConnector()
+	defer adb.Close()
+
+	result, err := adb.Exec("DELETE FROM attendenceDB WHERE emp_code = ?", json.EmpCode)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete attendance"})
+		return
+	}
+
+	rowsAffected, _ := result.RowsAffected()
+	if rowsAffected == 0 {
+		c.JSON(http.StatusNotFound, gin.H{"error": "No attendance records found for the employee"})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "Attendance records deleted successfully"})
+}
+
 func setupPostAttendence() {
 	var err error
 	router := gin.Default()
 	router.PUT("/attendance", markAttendence)
+	router.POST("/delete_attendance", deleteAttendance)
 	err = router.Run(":8000")
 	if err != nil {
 		log.Fatal(err)
