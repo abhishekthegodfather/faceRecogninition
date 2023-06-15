@@ -13,7 +13,7 @@ class FileView(APIView):
         delete_result = dbH.DBHandler.deleteUserFromDB(emp_code=emp_code)
         if delete_result["status"] == False:
             response_maker_data = {
-                 "ret_code" : "1",
+                 "ret_code" : 1,
                  "status_body" : {
                      "message" : delete_result
                  }

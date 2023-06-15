@@ -22,5 +22,8 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^getEmployeeDetails', include('user_details.urls')),
     url(r'^deleteEmployee', include('delete_user.urls')),
-    url(r'^checkAdmin', include('check_admin.urls'))
+    url(r'^checkAdmin', include('check_admin.urls')),
+    url(r'^checkin_checkout', include('markAttendenc.urls')),
+    url(r'^detectAndTechFace', include('newAndTrainFace.urls')),
+    url(r'^detectAndCompareFace', include('detectAndCompareFace.urls'))
 ]
