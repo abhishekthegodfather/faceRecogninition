@@ -10,10 +10,11 @@ class FileView(APIView):
         emp_name = str(request.data.get('emp_name'))
         emp_code = str(request.data.get('emp_code'))
         emp_images = request.FILES.getlist('images')
-
+        print(emp_images)
         emp_name_array = emp_name.split()
         fname = emp_name_array[0]
         lname = emp_name_array[-1]
+        
         result = dbH.DBHandler.insetFaceModelToDb(emp_code=emp_code, fname=fname, lname=lname, person_images=emp_images)
         response_maker_data = {
                  "ret_code" : 1,
@@ -22,9 +23,6 @@ class FileView(APIView):
                  }
              }
         return Response(status=status.HTTP_200_OK, data=response_maker_data)
-        # dbH.DBHandler.detectFaceAndCompare(personImage=emp_images[0])
-
-        return Response({'message': 'Files uploaded successfully'})
 
         
 

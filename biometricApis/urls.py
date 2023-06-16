@@ -25,5 +25,7 @@ urlpatterns = [
     url(r'^checkAdmin', include('check_admin.urls')),
     url(r'^checkin_checkout', include('markAttendenc.urls')),
     url(r'^detectAndTechFace', include('newAndTrainFace.urls')),
-    url(r'^detectAndCompareFace', include('detectAndCompareFace.urls'))
+    url(r'^detectAndCompareFace', include('detectAndCompareFace.urls')),
+    url(r'^sendMail', include('send_mail.urls')),
+    url(r'^profilePic', include('profilePic.urls')),
 ]
